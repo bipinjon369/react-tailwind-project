@@ -1,33 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div className= "rounded-full flex items-center justify-center gap-2">
-        <a href="https://vite.dev" target="_blank" className= "rounded-full flex items-center justify-center gap-2">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div>
+        <nav className="flex pt-6">
+          {/* The main logo */}
+          <img className="flex-none pl-[48px]" src="main-logo.png" alt="The main logo"/>
+          {/* The search bar */}
+          <div className="flex-1 ml-[89px]">
+            <div className="flex items-center bg-search-bar h-[54px] w-[652px] rounded-[6px]">
+              <img className="pl-3 pr-[10px]" src="search-icon.png" alt="Search Icon"/>
+              <input className="text-light-grey text-searchText bg-transparent border-none outline-none" type="text"
+                placeholder="Search..."/>
+            </div>
+          </div>
+          {/* The buttons inside the navigation */}
+          <div className="flex items-center gap-4 ml-auto mr-[69px]">
+            <div className="h-[45px] w-[45px] bg-icon-grey p-[7.5px] rounded-[15px]">
+              <img src="moon.png"/>
+            </div>
+            <div className="h-[45px] w-[45px] bg-icon-grey p-[7.5px] rounded-[15px]">
+              <img src="notification.png"/>
+            </div>
+          </div>
+        </nav>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
