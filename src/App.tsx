@@ -174,7 +174,7 @@ function App() {
             </svg>
           </button>
           <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
-            <img onClick={toggleDarkMode} src="moon.png" className="w-full h-full object-contain"/>
+            <img onClick={toggleDarkMode} src={`${setImage('moon.png')}`} className="'w-full h-full object-contain"/>
           </div>
           <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img src="notification.png" className="w-full h-full object-contain"/>
@@ -194,7 +194,7 @@ function App() {
         
         {/* The sidebar */}
         <aside className={`
-          border-r border-t border-gray-e8 bg-white flex-shrink-0
+          border-r border-t border-grey-dark ${setBgColor()} flex-shrink-0
           fixed md:static inset-y-0 left-0 z-30
           transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
           transition-transform duration-300 ease-in-out
@@ -205,19 +205,19 @@ function App() {
             <div className="flex items-center mx-7 pt-6 pb-9">
               <img className="rounded-full h-[52px] w-[52px] mr-3" src="person.png"/>
               <div className="flex flex-col justify-center pr-10">
-                <p className="text-user-name">Gavano</p>
+                <p className={`text-user-name ${isDarkMode ? 'text-white': ''}`}>Gavano</p>
                 <p className="text-user-role text-light-grey">HR Manager</p>
               </div>
-              <img className="w-[30px] h-[30px]" src="three-dots.png"/>
+              <img className="w-[30px] h-[30px]" src={setImage('three-dots.png')}/>
             </div>
           </div>
           {/* The list of menu items */}
           <ol className="flex flex-col gap-4 pb-6 border-b-[1.8px] border-b-[#E8E8E8] border-dashed mb-[26px]">
             {
               menuList.map((menu, index) => (
-                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar' : ''}`} key={index}>
-                  <img className="w-[28px] h-[28px]" src={`${menu.toLowerCase()}.png`}/>
-                  <p className={`text-menu-text ${menu === 'Dashboard' ? 'text-selected-menu-text' : 'text-menu-text-color'}`}>{menu}</p>
+                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar' + isDarkMode ? '-dark' : ''}`} key={index}>
+                  <img className="w-[28px] h-[28px]" src={`${menu.toLowerCase()}${isDarkMode ? '-dark' : ''}.png`}/>
+                  <p className={`text-menu-text ${menu === 'Dashboard' ? 'text-selected-menu-text' : isDarkMode ? 'text-white': 'text-menu-text'}`}>{menu}</p>
                 </li>
               ))
             }

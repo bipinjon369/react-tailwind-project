@@ -15,6 +15,7 @@ export default {
         'border-grey': '#E8E8E8',
         'border-grey-dark': '#242424',
         'selected-menu': '#5832E6',
+        'selected-menu-dark': '#2D2D2DDB',
         'menu-text-color': '#292D32',
         'selected-menu-text': '#5832E6',
         'main-color': '#F8FAFB',
