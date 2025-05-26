@@ -9,8 +9,12 @@ export default {
       colors: {
         'light-grey': '#A7A7A7',
         'search-bar': '#F6F6F6',
+        'search-bar-dark': '#2D2D2D',
         'icon-grey': '#EBEBEB66',
+        'icon-grey-dark': '#56565666',
         'border-grey': '#E8E8E8',
+        'border-grey-dark': '#242424',
+        'selected-menu': '#5832E6',
         'menu-text-color': '#292D32',
         'selected-menu-text': '#5832E6',
         'main-color': '#F8FAFB',
@@ -21,7 +25,8 @@ export default {
         'graph-grey': '#F2EFFF',
         'graph-purple': '#5832E6',
         'filter-blue': '#1A2B88',
-        'table-header-grey': '#949494'
+        'table-header-grey': '#949494',
+        'dark-mode': '#0D0D0D'
       },
       fontSize: {
         'searchText': ['20px', { lineHeight: '20px', fontWeight: '400' }],
@@ -35,6 +40,7 @@ export default {
         'filter-text': ['12.68px', { lineHeight: '12.68px', fontWeight: '400' }],
         'table-header-text': ['14.5px', { lineHeight: '14.5px', fontWeight: '400' }],
         'pie-header-text': ['20.3px', { lineHeight: '20.3px', fontWeight: '400' }],
+        'card-number-text': ['28px', { lineHeight: '28px', fontWeight: '400' }],
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif']

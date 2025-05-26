@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
+const userData = [
+  { name: 'Male', value: 35, color: '#5832E6' },
+  { name: 'Female', value: 65, color: '#16C098' }
+];
 const menuList = [
   'Dashboard',
   'Finance',
@@ -121,16 +125,34 @@ const tableData = [
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const toggleDarkMode = () => {
+  setIsDarkMode((prevMode) => !prevMode);
+  };
+  const setImage = (image: string) => {
+    if (isDarkMode) {
+      return image.replace('.png', '-dark.png');
+    }
+    return image;
+  }
+  const setBgColor = (bgColor: string | null = null) => {
+    if (isDarkMode) {
+      if (bgColor) {
+        return (bgColor + '-dark')
+      }
+      return 'bg-dark-mode';
+    }
+    return bgColor ?? '';
+  }
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <nav className="flex flex-col sm:flex-row items-start sm:items-center pt-4 sm:pt-6 px-4 sm:px-12 gap-4 sm:gap-0 border-b border-gray-e8 flex-shrink-0">
+      <nav className={`${setBgColor()} flex flex-col sm:flex-row items-start sm:items-center pt-4 sm:pt-6 px-4 sm:px-12 gap-4 sm:gap-0 border-b ${setBgColor('border-border-grey')} flex-shrink-0`}>
         {/* The main logo */}
-        <img className="flex-none h-8 sm:h-auto mb-2 sm:mb-6" src="main-logo.png" alt="The main logo"/>
+        <img className="flex-none h-8 sm:h-auto mb-2 sm:mb-6" src={setImage('main-logo.png')} alt="The main logo"/>
         
         {/* The search bar */}
         <div className="flex-1 w-full sm:w-auto sm:ml-[89px] order-3 sm:order-2 mb-2 sm:mb-6 sm:min-w-0">
-          <div className="flex items-center bg-search-bar h-[45px] sm:h-[54px] w-full sm:max-w-[652px] rounded-[6px]">
+          <div className={`flex items-center ${setBgColor('bg-search-bar')} h-[45px] sm:h-[54px] w-full sm:max-w-[652px] rounded-[6px]`}>
             <img className="pl-3 pr-[10px] w-4 h-4 sm:w-auto sm:h-auto flex-shrink-0" src="search-icon.png" alt="Search Icon"/>
             <input 
               className="text-light-grey text-sm sm:text-searchText bg-transparent border-none outline-none flex-1 pr-3 min-w-0" 
@@ -144,17 +166,17 @@ function App() {
         <div className="flex items-center gap-3 sm:gap-4 sm:ml-4 order-2 sm:order-3 sm:static absolute right-2 top-2 max-318:static mb-2 sm:mb-6 flex-shrink-0">
           {/* Hamburger menu button - only visible on small screens */}
           <button 
-            className="md:hidden h-[40px] w-[40px] bg-icon-grey p-[6px] rounded-[12px] flex items-center justify-center"
+            className={`md:hidden h-[40px] w-[40px] ${setBgColor('bg-icon-grey')} p-[6px] rounded-[12px] flex items-center justify-center`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <div className="h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]">
-            <img src="moon.png" className="w-full h-full object-contain"/>
+          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
+            <img onClick={toggleDarkMode} src="moon.png" className="w-full h-full object-contain"/>
           </div>
-          <div className="h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]">
+          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img src="notification.png" className="w-full h-full object-contain"/>
           </div>
         </div>
@@ -230,7 +252,7 @@ function App() {
                         <p className={`text-profit-text py-[3px] ${item.arrow === 'up' ? 'text-profit-text-green': 'text-loss-text-red'} pr-1 text-xs sm:text-sm`}>{item.percentage}</p>
                       </div>
                     </div>
-                    <p className="text-lg sm:text-xl font-semibold mt-2">{item.number}</p>
+                    <p className="text-lg sm:text-card-number-text mt-[7px]">{item.number}</p>
                     <p className="text-sm text-gray-500">{item.user_type}</p>
                   </div>
                 </div>
@@ -335,78 +357,141 @@ function App() {
               </div>
             </section>
             {/* Third section - Table and pie chart */}
-            <div className="grid grid-cols-2">
-              <section className="bg-white pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[30px]">
+            <div className="grid grid-cols-1 xl:grid-cols-[60%_40%]">
+              <section className="bg-white pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[30px] mb-[23px] xl:mb-0">
                 <div>
                   <div className="flex items-center pb-[18px]">
                     <p className="text-table-header">Employee Status</p>
-                    <div className="bg-search-bar ml-auto rounded-[10.87px] h-[34px] w-[131px]">
-                      <div className="flex items-center justify-center gap-[10px] px-[10px] py-[7.5px]">
-                        <button className="text-filter-text text-filter-blue">Filter & Sort</button>
-                        <img className="h-[20px] w-[20px]" src="filter.png"/>
+                    <div className="bg-search-bar ml-auto rounded-[10.87px] h-[34px] w-auto">
+                      <div className="flex items-center justify-center gap-[10px] px-[10px] py-[7.5px] sm:px-[10px] sm:py-[7.5px] px-[6px] py-[6px]">
+                        <button className="text-filter-text text-filter-blue hidden sm:inline">
+                          Filter & Sort
+                        </button>
+                        <img className="h-[20px] w-[20px]" src="filter.png" />
                       </div>
                     </div>
                   </div>
-                  <table className="w-full table-auto border-collapse text-left">
-                    <thead>
-                      <tr className="border-b border-[#E8E8E8]">
-                        {tableHeaders.map((item, index) => (
-                          <th
-                            key={index}
-                            className={`pb-3 text-table-header-grey text-table-header-text whitespace-nowrap ${
-                              index === tableHeaders.length - 1 ? 'text-right' : 'pr-4'}`}
-                          >
-                            {item}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData.map((item, index) => (
-                        <tr
-                          key={index}
-                        >
-                          <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
-                            <div className="flex justify-start items-center">
-                              <div className="pr-[4.85px]">
-                                <img 
-                                  className="h-[31.7px] w-[31.7px] rounded-full object-cover" 
-                                  src={`https://randomuser.me/api/portraits/men/${index}.jpg`}
-                                  alt="Profile"
-                                />
-                              </div>
-                              <p>{item[0]}</p>
-                            </div>
-                          </td>
-                          <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
-                            {item[1]}
-                          </td>
-                          <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
-                            {item[2]}
-                          </td>
-                          <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
-                            <span className="text-[#16C098]">+</span>{item[3]}
-                          </td>
-                          <td className={`${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
-                            <div className="flex justify-center bg-[#16C09833] rounded-[4px]">
-                              <p className="text-[#16C098] px-2 py-1">{item[4]}</p>
-                            </div>
-                          </td>
+                  <div className="overflow-x-auto lg:overflow-x-visible">
+                    <table className="w-full table-auto border-collapse text-left min-w-[600px]">
+                      <thead>
+                        <tr className="border-b border-[#E8E8E8]">
+                          {tableHeaders.map((item, index) => (
+                            <th
+                              key={index}
+                              className={`pb-3 text-table-header-grey text-table-header-text whitespace-nowrap ${
+                                index === tableHeaders.length - 1 ? 'text-right' : 'pr-4'}`}
+                            >
+                              {item}
+                            </th>
+                          ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {tableData.map((item, index) => (
+                          <tr
+                            key={index}
+                          >
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                              <div className="flex justify-start items-center">
+                                <div className="pr-[4.85px]">
+                                  <img 
+                                    className="h-[31.7px] w-[31.7px] rounded-full object-cover" 
+                                    src={`https://randomuser.me/api/portraits/men/${index}.jpg`}
+                                    alt="Profile"
+                                  />
+                                </div>
+                                <p>{item[0]}</p>
+                              </div>
+                            </td>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                              {item[1]}
+                            </td>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                              {item[2]}
+                            </td>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                              <span className="text-[#16C098]">+</span>{item[3]}
+                            </td>
+                            <td className={`${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                              <div className="flex justify-center bg-[#16C09833] rounded-[4px]">
+                                <p className="text-[#16C098] px-2 py-1">{item[4]}</p>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </section>
               {/* Pie chart */}
               <section className="bg-white pl-[30px] pr-[26px] pt-6 pb-[15px]">
                 <div>
-                  <div>
+                  <div className="text-center">
                     <p className="text-pie-header-text text-black">Employee Composition</p>
                     {/* Pie chart */}
-                    <div>
+                    <div className="flex items-center justify-center my-6">
+                      <div className="relative">
+                        {/* Pie Chart */}
+                        <div className="w-[200px] h-[200px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={userData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={50}
+                                outerRadius={80}
+                                startAngle={90}
+                                endAngle={450}
+                                dataKey="value"
+                              >
+                                {userData.map((entry, index) => (
+                                  <Cell 
+                                    key={`cell-${index}`} 
+                                    fill={entry.color} 
+                                  />
+                                ))}
+                              </Pie>
+                              
+                              {/* Male segment (popped out) */}
+                              <Pie
+                                data={[userData[0]]} // Male data
+                                cx="53.5%" 
+                                cy="51.5%"
+                                innerRadius={50}
+                                outerRadius={90} // Larger radius
+                                startAngle={90} 
+                                endAngle={90 + userData[0].value * 3.6} // End at male segment end
+                                dataKey="value"
+                              >
+                                <Cell fill={userData[0].color} />
+                              </Pie>
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
 
+                        {/* Labels with icons */}
+                        <div className="bg-white absolute -left-[27px] top-[35px] flex items-center rounded-[10px]">
+                          <div className="flex justify-center items-center p-[10px]">
+                            <div className="w-[13px] h-[26px] mr-[10px]">
+                              <img src="female.png" />
+                            </div>
+                            <span className="text-search-text text-black">35%</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white absolute -right-[30px] bottom-8 flex items-center rounded-[10px]">
+                          <div className="flex justify-center items-center p-[10px]">
+                            <div className="w-[13px] h-[26px] mr-[10px]">
+                              <img src="male.png"/>
+                            </div>
+                            <span className="text-search-text text-black">65%</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    
                     <p className="text-stat-text text-table-header-grey">856 employee total</p>
                   </div>
                 </div>
