@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const userData = [
@@ -129,30 +130,29 @@ function App() {
   const toggleDarkMode = () => {
   setIsDarkMode((prevMode) => !prevMode);
   };
+  // Apply dark class to document root when dark mode is enabled
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
   const setImage = (image: string) => {
     if (isDarkMode) {
       return image.replace('.png', '-dark.png');
     }
     return image;
   }
-  const setBgColor = (bgColor: string | null = null) => {
-    if (isDarkMode) {
-      if (bgColor) {
-        return (bgColor + '-dark')
-      }
-      return 'bg-dark-mode';
-    }
-    return bgColor ?? '';
-  }
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <nav className={`${setBgColor()} flex flex-col sm:flex-row items-start sm:items-center pt-4 sm:pt-6 px-4 sm:px-12 gap-4 sm:gap-0 border-b ${setBgColor('border-border-grey')} flex-shrink-0`}>
+      <nav className={`dark:bg-dark-mode flex flex-col sm:flex-row items-start sm:items-center pt-4 sm:pt-6 px-4 sm:px-12 gap-4 sm:gap-0 border-b border-border-grey dark:border-icon-grey-dark flex-shrink-0`}>
         {/* The main logo */}
         <img className="flex-none h-8 sm:h-auto mb-2 sm:mb-6" src={setImage('main-logo.png')} alt="The main logo"/>
         
         {/* The search bar */}
         <div className="flex-1 w-full sm:w-auto sm:ml-[89px] order-3 sm:order-2 mb-2 sm:mb-6 sm:min-w-0">
-          <div className={`flex items-center ${setBgColor('bg-search-bar')} h-[45px] sm:h-[54px] w-full sm:max-w-[652px] rounded-[6px]`}>
+          <div className={`flex items-center bg-search-bar dark:bg-search-bar-dark h-[45px] sm:h-[54px] w-full sm:max-w-[652px] rounded-[6px]`}>
             <img className="pl-3 pr-[10px] w-4 h-4 sm:w-auto sm:h-auto flex-shrink-0" src="search-icon.png" alt="Search Icon"/>
             <input 
               className="text-light-grey text-sm sm:text-searchText bg-transparent border-none outline-none flex-1 pr-3 min-w-0" 
@@ -166,17 +166,17 @@ function App() {
         <div className="flex items-center gap-3 sm:gap-4 sm:ml-4 order-2 sm:order-3 sm:static absolute right-2 top-2 max-318:static mb-2 sm:mb-6 flex-shrink-0">
           {/* Hamburger menu button - only visible on small screens */}
           <button 
-            className={`md:hidden h-[40px] w-[40px] ${setBgColor('bg-icon-grey')} p-[6px] rounded-[12px] flex items-center justify-center`}
+            className={`md:hidden h-[40px] w-[40px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] rounded-[12px] flex items-center justify-center`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
+          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img onClick={toggleDarkMode} src={`${setImage('moon.png')}`} className="'w-full h-full object-contain"/>
           </div>
-          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] ${setBgColor('bg-icon-grey')} p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
+          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img src="notification.png" className="w-full h-full object-contain"/>
           </div>
         </div>
@@ -194,7 +194,7 @@ function App() {
         
         {/* The sidebar */}
         <aside className={`
-          border-r border-t border-grey-dark ${setBgColor()} flex-shrink-0
+          border-r border-t dark:border-[#2D2D2D] dark:bg-dark-mode flex-shrink-0
           fixed md:static inset-y-0 left-0 z-30
           transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
           transition-transform duration-300 ease-in-out
@@ -212,10 +212,10 @@ function App() {
             </div>
           </div>
           {/* The list of menu items */}
-          <ol className="flex flex-col gap-4 pb-6 border-b-[1.8px] border-b-[#E8E8E8] border-dashed mb-[26px]">
+          <ol className="flex flex-col gap-4 pb-6 border-b-[1.8px] border-b-[#E8E8E8] dark:border-b-[#2D2D2D] border-dashed mb-[26px]">
             {
               menuList.map((menu, index) => (
-                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar' + isDarkMode ? '-dark' : ''}`} key={index}>
+                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar dark:bg-search-bar-dark' : ''}`} key={index}>
                   <img className="w-[28px] h-[28px]" src={`${menu.toLowerCase()}${isDarkMode ? '-dark' : ''}.png`}/>
                   <p className={`text-menu-text ${menu === 'Dashboard' ? 'text-selected-menu-text' : isDarkMode ? 'text-white': 'text-menu-text'}`}>{menu}</p>
                 </li>
@@ -225,61 +225,61 @@ function App() {
           {/* Profile and settings */}
           <ol>
               <li className="flex items-center gap-[20px] pl-10 pr-[75px] py-4">
-                  <img className="w-[28px] h-[28px]" src={`profile.png`}/>
-                  <p className="text-menu-text-color text-menu-text">Profile</p>
+                  <img className="w-[28px] h-[28px]" src={setImage('profile.png')}/>
+                  <p className="text-menu-text-color dark:text-white text-menu-text">Profile</p>
               </li>
               <li className="flex items-center gap-[20px] pl-10 pr-[75px] py-4">
-                  <img className="w-[28px] h-[28px]" src="setting.png"/>
-                  <p className="text-menu-text-color text-menu-text">Setting</p>
+                  <img className="w-[28px] h-[28px]" src={setImage('setting.png')}/>
+                  <p className="text-menu-text-color dark:text-white text-menu-text">Setting</p>
               </li>
           </ol>
         </aside>
 
         {/* Main content area */}
-        <div className="flex-1 bg-main-color overflow-y-auto min-w-0">
+        <div className="flex-1 bg-main-color dark:bg-[#181818] overflow-y-auto min-w-0">
           <div className="px-4 sm:px-6 md:pl-[42px] md:pr-[26px] pt-6 md:pt-[41px] pb-6 md:pb-[36px]">
             {/* First section */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {statisticsList.map((item) => (
                 <div key={item.title}>
-                  <div className="bg-white px-4 sm:px-8 pt-[18px] pb-[23px] h-full rounded-md">
+                  <div className="bg-white dark:bg-dark-mode px-4 sm:px-8 pt-[18px] pb-[23px] h-full rounded-md">
                     <div className="flex items-center">
-                      <div className="text-stat-text text-menu-text-color pr-[13px] truncate min-w-0">{item.title}</div>
-                      <div className={`inline-flex rounded-[50px] flex-shrink-0 ${item.arrow === 'up' ? 'bg-profit-green': 'bg-loss-red'}`}>
+                      <div className="text-stat-text text-menu-text-color dark:text-white pr-[13px] truncate min-w-0">{item.title}</div>
+                      <div className={`inline-flex rounded-[50px] flex-shrink-0 ${item.arrow === 'up' ? 'bg-profit-green dark:bg-[#26DA0B26]': 'bg-loss-red dark:bg-[#FF262638]'}`}>
                         <div className="flex items-center justify-center pr-[3px] pl-1 py-[3px]">
                           <img src={`${item.arrow}-arrow.png`} className="w-3 h-3"/>
                         </div>
-                        <p className={`text-profit-text py-[3px] ${item.arrow === 'up' ? 'text-profit-text-green': 'text-loss-text-red'} pr-1 text-xs sm:text-sm`}>{item.percentage}</p>
+                        <p className={`text-profit-text py-[3px] ${item.arrow === 'up' ? 'text-profit-text-green dark:text-[#0EA400]': 'text-loss-text-red dark:text-[#DE1229]'} pr-1 text-xs sm:text-sm`}>{item.percentage}</p>
                       </div>
                     </div>
-                    <p className="text-lg sm:text-card-number-text mt-[7px]">{item.number}</p>
-                    <p className="text-sm text-gray-500">{item.user_type}</p>
+                    <p className="text-lg sm:text-card-number-text mt-[7px] dark:text-white">{item.number}</p>
+                    <p className="text-sm text-gray-500 dark:text-[#A6A6A6]">{item.user_type}</p>
                   </div>
                 </div>
               ))
               }
             </section>
             {/* Second section - Graph */} 
-            <section className="bg-white pl-[30px] pr-[26px] mb-[23px] mt-6">
+            <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] mb-[23px] mt-6">
               <div>
                 {/* Chart Header */}
                 <div className="flex flex-col sm:flex-row items-center justify-between mb-7 pt-[30px]">
-                  <h2 className="text-graph-h1 text-black">Job Statistics</h2>
+                  <h2 className="text-graph-h1 text-black dark:text-white">Job Statistics</h2>
                   <div className="flex items-center gap-6">
                     <div className="flex items-center gap-5">
                       <div className="flex items-center gap-[5px]">
-                        <div className="w-4 h-4 bg-graph-grey"></div>
-                        <span className="text-profit-text text-black">Job View</span>
+                        <div className="w-4 h-4 bg-graph-grey dark:bg-[#2D2D2D]"></div>
+                        <span className="text-profit-text text-black dark:text-white">Job View</span>
                       </div>
                       <div className="flex items-center gap-[5px]">
-                        <div className="w-3 h-3 bg-graph-purple rounded"></div>
-                        <span className="text-black text-profit-text">Job Applied</span>
+                        <div className="w-4 h-4 bg-graph-purple dark:bg-[#6C49EC]"></div>
+                        <span className="text-black text-profit-text dark:text-white">Job Applied</span>
                       </div>
                     </div>
-                    <div className="bg-search-bar rounded-[12px]">
+                    <div className="bg-search-bar dark:bg-[#2D2D2D] rounded-[12px]">
                       <div className="flex items-center gap-[10p] p-[10px]">  
-                        <span className="text-sm text-[#1A2B88]">This Month</span>
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="text-sm text-[#1A2B88] dark:text-[#8894FF]">This Month</span>
+                        <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </div>
@@ -302,7 +302,7 @@ function App() {
                     >
                       <CartesianGrid 
                         strokeDasharray="1.19 1.19" 
-                        stroke="#E8E8E8" 
+                        stroke={isDarkMode ? "#2C2C2C" : "#E8E8E8"} 
                         horizontal={true}
                         vertical={false}
                       />
@@ -337,7 +337,7 @@ function App() {
                         {data.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
-                            fill="#5832E6" 
+                            fill={isDarkMode ? "#6C49EC" : "#5832E6"} 
                           />
                         ))}
                       </Bar>
@@ -347,7 +347,7 @@ function App() {
                         {data.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
-                            fill="#F2EFFF" 
+                            fill={isDarkMode ? "#2D2D2D" : "#F2EFFF"} 
                           />
                         ))}
                       </Bar>
@@ -358,16 +358,16 @@ function App() {
             </section>
             {/* Third section - Table and pie chart */}
             <div className="grid grid-cols-1 xl:grid-cols-[60%_40%]">
-              <section className="bg-white pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[30px] mb-[23px] xl:mb-0">
+              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[30px] mb-[23px] xl:mb-0">
                 <div>
                   <div className="flex items-center pb-[18px]">
-                    <p className="text-table-header">Employee Status</p>
-                    <div className="bg-search-bar ml-auto rounded-[10.87px] h-[34px] w-auto">
+                    <p className="text-table-header dark:text-white">Employee Status</p>
+                    <div className="bg-search-bar dark:bg-search-bar-dark ml-auto rounded-[10.87px] h-[34px] w-auto">
                       <div className="flex items-center justify-center gap-[10px] px-[10px] py-[7.5px] sm:px-[10px] sm:py-[7.5px] px-[6px] py-[6px]">
-                        <button className="text-filter-text text-filter-blue hidden sm:inline">
+                        <button className="text-filter-text text-filter-blue dark:text-[#8894FF] hidden sm:inline">
                           Filter & Sort
                         </button>
-                        <img className="h-[20px] w-[20px]" src="filter.png" />
+                        <img className="h-[20px] w-[20px]" src={setImage('filter.png')} />
                       </div>
                     </div>
                   </div>
@@ -378,7 +378,7 @@ function App() {
                           {tableHeaders.map((item, index) => (
                             <th
                               key={index}
-                              className={`pb-3 text-table-header-grey text-table-header-text whitespace-nowrap ${
+                              className={`pb-3 text-table-header-grey dark:text-white text-table-header-text whitespace-nowrap ${
                                 index === tableHeaders.length - 1 ? 'text-right' : 'pr-4'}`}
                             >
                               {item}
@@ -391,7 +391,7 @@ function App() {
                           <tr
                             key={index}
                           >
-                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
                               <div className="flex justify-start items-center">
                                 <div className="pr-[4.85px]">
                                   <img 
@@ -403,16 +403,16 @@ function App() {
                                 <p>{item[0]}</p>
                               </div>
                             </td>
-                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
                               {item[1]}
                             </td>
-                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
                               {item[2]}
                             </td>
-                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                            <td className={`pr-4 ${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
                               <span className="text-[#16C098]">+</span>{item[3]}
                             </td>
-                            <td className={`${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black text-table-header-text`}>
+                            <td className={`${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
                               <div className="flex justify-center bg-[#16C09833] rounded-[4px]">
                                 <p className="text-[#16C098] px-2 py-1">{item[4]}</p>
                               </div>
@@ -425,10 +425,10 @@ function App() {
                 </div>
               </section>
               {/* Pie chart */}
-              <section className="bg-white pl-[30px] pr-[26px] pt-6 pb-[15px]">
+              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px]">
                 <div>
                   <div className="text-center">
-                    <p className="text-pie-header-text text-black">Employee Composition</p>
+                    <p className="text-pie-header-text text-black dark:text-white">Employee Composition</p>
                     {/* Pie chart */}
                     <div className="flex items-center justify-center my-6">
                       <div className="relative">
@@ -472,27 +472,27 @@ function App() {
                         </div>
 
                         {/* Labels with icons */}
-                        <div className="bg-white absolute -left-[27px] top-[35px] flex items-center rounded-[10px]">
+                        <div className="bg-white dark:bg-[#181818] absolute -left-[27px] top-[35px] flex items-center rounded-[10px]">
                           <div className="flex justify-center items-center p-[10px]">
                             <div className="w-[13px] h-[26px] mr-[10px]">
                               <img src="female.png" />
                             </div>
-                            <span className="text-search-text text-black">35%</span>
+                            <span className="text-search-text text-black dark:text-white">35%</span>
                           </div>
                         </div>
                         
-                        <div className="bg-white absolute -right-[30px] bottom-8 flex items-center rounded-[10px]">
+                        <div className="bg-white dark:bg-[#181818] absolute -right-[30px] bottom-8 flex items-center rounded-[10px]">
                           <div className="flex justify-center items-center p-[10px]">
                             <div className="w-[13px] h-[26px] mr-[10px]">
                               <img src="male.png"/>
                             </div>
-                            <span className="text-search-text text-black">65%</span>
+                            <span className="text-search-text text-black dark:text-white">65%</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    <p className="text-stat-text text-table-header-grey">856 employee total</p>
+                    <p className="text-stat-text text-table-header-grey dark:text-[#A6A6A6]">856 employee total</p>
                   </div>
                 </div>
               </section>
