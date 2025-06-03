@@ -173,10 +173,10 @@ function App() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
+          <div className={`hidden md:block h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img onClick={toggleDarkMode} src={`${setImage('moon.png')}`} className="'w-full h-full object-contain"/>
           </div>
-          <div className={`h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
+          <div className={`hidden md:block h-[40px] w-[40px] sm:h-[45px] sm:w-[45px] bg-icon-grey dark:bg-icon-grey-dark p-[6px] sm:p-[7.5px] rounded-[12px] sm:rounded-[15px]`}>
             <img src="notification.png" className="w-full h-full object-contain"/>
           </div>
         </div>
@@ -194,7 +194,7 @@ function App() {
         
         {/* The sidebar */}
         <aside className={`
-          border-r border-t dark:border-[#2D2D2D] dark:bg-dark-mode flex-shrink-0
+          border-r border-t dark:border-[#2D2D2D] bg-white dark:bg-dark-mode flex-shrink-0
           fixed md:static inset-y-0 left-0 z-30
           transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
           transition-transform duration-300 ease-in-out
@@ -233,6 +233,7 @@ function App() {
                   <p className="text-menu-text-color dark:text-white text-menu-text">Setting</p>
               </li>
           </ol>
+
         </aside>
 
         {/* Main content area */}
