@@ -215,7 +215,11 @@ function App() {
           <ol className="flex flex-col gap-4 pb-6 border-b-[1.8px] border-b-[#E8E8E8] dark:border-b-[#2D2D2D] border-dashed mb-[26px]">
             {
               menuList.map((menu, index) => (
-                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar dark:bg-search-bar-dark' : ''}`} key={index}>
+                <li className={`flex items-center gap-[20px] pl-10 pr-[75px] py-4 ${menu === 'Dashboard' ? 'bg-search-bar dark:bg-search-bar-dark relative' : ''}`} key={index}>
+                  {menu === 'Dashboard' && 
+                  <div className="absolute left-0 top-9 -translate-y-1/2 h-[80%]">
+                    <img src="/selected_menu.svg" alt="selected indicator" className="h-full" />
+                  </div>}
                   <img className="w-[28px] h-[28px]" src={`${menu.toLowerCase()}${isDarkMode ? '-dark' : ''}.png`}/>
                   <p className={`text-menu-text ${menu === 'Dashboard' ? 'text-selected-menu-text' : isDarkMode ? 'text-white': 'text-menu-text'}`}>{menu}</p>
                 </li>
@@ -359,7 +363,7 @@ function App() {
             </section>
             {/* Third section - Table and pie chart */}
             <div className="grid grid-cols-1 xl:grid-cols-[60%_40%]">
-              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[30px] mb-[23px] xl:mb-0">
+              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[20px] mb-[23px] xl:mb-0">
                 <div>
                   <div className="flex items-center pb-[18px]">
                     <p className="text-table-header dark:text-white">Employee Status</p>
@@ -426,7 +430,7 @@ function App() {
                 </div>
               </section>
               {/* Pie chart */}
-              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px]">
+              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[20px] pt-6 pb-[15px]">
                 <div>
                   <div className="text-center">
                     <p className="text-pie-header-text text-black dark:text-white">Employee Composition</p>
