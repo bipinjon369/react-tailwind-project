@@ -83,7 +83,7 @@ const tableData = [
     "Finance",
     "25",
     "100%",
-    "Permanent"
+    "Contract"
   ],
   [
     "Leo Stanton",
@@ -363,7 +363,7 @@ function App() {
             </section>
             {/* Third section - Table and pie chart */}
             <div className="grid grid-cols-1 xl:grid-cols-[60%_40%]">
-              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px] mr-[20px] mb-[23px] xl:mb-0">
+              <section className="bg-white dark:bg-dark-mode pl-[30px] pr-[26px] pt-6 pb-[15px] md:mr-[20px] mb-[23px] xl:mb-0">
                 <div>
                   <div className="flex items-center pb-[18px]">
                     <p className="text-table-header dark:text-white">Employee Status</p>
@@ -418,8 +418,8 @@ function App() {
                               <span className="text-[#16C098]">+</span>{item[3]}
                             </td>
                             <td className={`${index === 0 ? 'pt-[21px] pb-[18px]': 'pb-[18px]'} text-black dark:text-white text-table-header-text`}>
-                              <div className="flex justify-center bg-[#16C09833] rounded-[4px]">
-                                <p className="text-[#16C098] px-2 py-1">{item[4]}</p>
+                              <div className={`flex justify-center ${item[4] === 'Permanent'?'bg-[#16C09833]' : 'bg-[#A7A7A733]'} rounded-[4px]`}>
+                                <p className={`${item[4] === 'Permanent'?'text-[#16C098]' : 'text-[#5C5C5C]'} px-2 py-1`}>{item[4]}</p>
                               </div>
                             </td>
                           </tr>
